@@ -1,7 +1,7 @@
 # include	"MemoryModule.h"
 
 static void myerror(char *msg, MADDR addr) {
-	fprintf(stderr, "%s: %ud\n", *msg, addr);
+	fprintf(stderr, "%s: %lud\n", msg, addr);
 	exit(EXIT_FAILURE);
 }
 
@@ -59,4 +59,3 @@ void MMloadProgram(MEMORY *mem, MADDR addr, uint32_t code[], size_t len) {
 		addr += 4;
 	}
 }
-		
