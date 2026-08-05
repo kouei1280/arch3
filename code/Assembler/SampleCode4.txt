@@ -1,0 +1,4 @@
+    START   0
+    addi    $s0,$zero,16
+    srl     $s1,$s0,2
+    BREAK

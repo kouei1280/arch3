@@ -38,6 +38,8 @@ void ID(void) {
 void EX(void) {
     /* body */
     ExMemReg = caluculate(IdExReg);
+    //ExMemReg.pc = PC;
+    ExMemReg.is_break = IdExReg.is_break; // break命令のフラグを引き継ぐ
 }
 
 void MEM(void) {
@@ -47,6 +49,7 @@ void MEM(void) {
     MemWbReg.w_reg = ExMemReg.w_reg;
     MemWbReg.result_address = address;
     MemWbReg.alu = 0; //初期化
+    MemWbReg.is_break = ExMemReg.is_break; // break命令のフラグを引き継ぐ
 
     if (address != -1) { // I形式
         if (ExMemReg.zero == 2) {
@@ -142,8 +145,9 @@ static uint32_t *load_program(const char *path, size_t *out_count) {
     *out_count = count;
     return inst;
 }
+
 int main(int argc, char *argv[]) {
-    const char *program_path = (argc > 1) ? argv[1] : "../Assembler/SampleCode.bin";
+    const char *program_path = (argc > 1) ? argv[1] : "../Assembler/Sample_sltiu.bin";
     size_t inst_count = 0;
     uint32_t *inst = load_program(program_path, &inst_count);
 
@@ -162,13 +166,18 @@ int main(int argc, char *argv[]) {
         if (IfIdReg.pc != IdExReg.pc) {
             printf("PC: %u->%uにジャンプします\n", IfIdReg.pc, IdExReg.pc);
             continue;
-        }
+        }     
         
         EX();
         MEM();
         printf("PCの値: %u, inst_count: %u\n", PC, inst_count * 4);
         //sleep(1);
         WB();
+
+        if (MemWbReg.is_break) {
+            printf("break命令を検知しました。プログラムを終了します。\n");
+            break;
+        }
     }
 
     free(inst);

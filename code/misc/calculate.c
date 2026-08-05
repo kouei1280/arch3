@@ -40,6 +40,11 @@ EX_MEM caluculate(ID_EX idExReg) {
             res.w_reg = w_reg;
             printf("slt: %u < %u = %u\n", data_rs, data_rt, res.result);
             break;
+        case 0x0B: // sltiu
+            res.result = (data_rs < imm) ? 1 : 0;
+            res.w_reg = w_reg;
+            printf("sltiu: %u < %u = %u\n", data_rs, imm, res.result);
+            break;
         case 0x02: // srl
             res.result = data_rt >> shamt;
             res.w_reg = w_reg;
@@ -62,7 +67,6 @@ EX_MEM caluculate(ID_EX idExReg) {
             res.w_reg = w_reg;
             res.mem_op = 2; //メモリ操作の種類をswに設定
             printf("sw: アドレス計算 %u + %u = %u\n", data_rs, imm, res.result_address);
-
             break;
         case 0x04: // beq
             data_rt = Reg[w_reg];
