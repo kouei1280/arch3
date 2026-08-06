@@ -147,7 +147,7 @@ static uint32_t *load_program(const char *path, size_t *out_count) {
 }
 
 int main(int argc, char *argv[]) {
-    const char *program_path = (argc > 1) ? argv[1] : "../Assembler/Sample_sltiu.bin";
+    const char *program_path = (argc > 1) ? argv[1] : "../Assembler/Sample_srl.bin";
     size_t inst_count = 0;
     uint32_t *inst = load_program(program_path, &inst_count);
 

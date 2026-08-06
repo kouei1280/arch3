@@ -34,11 +34,18 @@ ID_EX R(Instruction instraction) {
             res.alu = 0x02; // >>
             res.shamt = instraction.shamt;
             break;
+        default:
+            fprintf(stderr, "未対応のR形式命令です: funct=0x%02X\n", instraction.funct);
+            exit(EXIT_FAILURE);
     }
     return res;
 }
 
 ID_EX I(Instruction instraction, uint32_t funct) {
+    if (funct != 0x08 && funct != 0x23 && funct != 0x2B && funct != 0x04 && funct != 0x0B) {
+        fprintf(stderr, "未対応のI形式命令です: funct=0x%02X\n", funct);
+        exit(EXIT_FAILURE);
+    }
     ID_EX res = {0};
     res.data_rs = Reg[instraction.rs];
     res.w_reg = instraction.rt;
@@ -48,9 +55,13 @@ ID_EX I(Instruction instraction, uint32_t funct) {
 }
 
 ID_EX J(Instruction instraction, uint32_t alu) {
+    if (alu != 0x11) {
+        fprintf(stderr, "未対応のJ形式命令です: alu=0x%02X\n", alu);
+        exit(EXIT_FAILURE);
+    }
     ID_EX res = {0};
     res.alu = alu; // 0x11 j
-    PC -= instraction.addr * 4 + 4; // PCの更新
+    PC = instraction.addr * 4; // PCの更新
     return res;
 }
 
@@ -102,6 +113,9 @@ ID_EX inst_decode(uint32_t inst){
             funct = 0x11; // srlとalu値が被るため別の値に変更
             res = J(instraction, funct);
             break;
+        default:
+            fprintf(stderr, "未対応の命令です: opcode=0x%02X\n", instraction.opcode);
+            exit(EXIT_FAILURE); 
     }
 
     return res;

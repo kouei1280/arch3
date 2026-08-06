@@ -1,0 +1,4 @@
+    START   0
+    addi    $s0,$zero,1
+    sll     $s1,$s0,3
+    BREAK

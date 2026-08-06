@@ -41,6 +41,10 @@ EX_MEM caluculate(ID_EX idExReg) {
             printf("slt: %u < %u = %u\n", data_rs, data_rt, res.result);
             break;
         case 0x0B: // sltiu
+            if ((int32_t)data_rs < 0 || (int32_t)imm < 0) {
+                fprintf(stderr, "負の値が入力されました: data_rs=%d, imm=%d\n異常終了します。\n", (int32_t)data_rs, (int32_t)imm);
+                exit(EXIT_FAILURE);
+            }
             res.result = (data_rs < imm) ? 1 : 0;
             res.w_reg = w_reg;
             printf("sltiu: %u < %u = %u\n", data_rs, imm, res.result);

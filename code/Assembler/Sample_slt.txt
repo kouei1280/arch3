@@ -1,0 +1,5 @@
+    START   0
+    addi    $s0,$zero,2
+    addi    $s1,$zero,5
+    slt     $s2,$s0,$s1
+    BREAK

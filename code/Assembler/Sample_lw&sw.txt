@@ -1,0 +1,6 @@
+    START   0
+    addi    $s0,$zero,20
+    addi    $s1,$zero,42
+    sw      $s1,0($s0)
+    lw      $s2,0($s0)
+    BREAK

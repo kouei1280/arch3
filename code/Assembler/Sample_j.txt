@@ -1,0 +1,4 @@
+    START   0
+    j       END
+    addi    $s0,$zero,99
+END: BREAK
